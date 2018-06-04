@@ -22,6 +22,8 @@ if using `go build`.
 $GOPATH/bin/example
 ```
 
+Please ensure that `libdarknet.so` is in your `$LD_LIBRARY_PATH`.
+
 ## Notes
 
 Note that the bounding boxes' values are ratios. To get the actual values, use

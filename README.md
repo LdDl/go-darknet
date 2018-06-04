@@ -1,5 +1,7 @@
 # go-darknet: Go bindings for Darknet
 
+[![GoDoc](https://godoc.org/github.com/gyonluks/go-darknet?status.svg)](https://godoc.org/github.com/gyonluks/go-darknet)
+
 go-darknet is a Go package, which uses Cgo to enable Go applications to use
 YOLO in Darknet.
 
