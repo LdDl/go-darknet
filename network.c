@@ -4,14 +4,6 @@
 
 #include "network.h"
 
-void free_network(network *n)
-{
-    free(n->layers);
-    free(n->seen);
-    free(n->t);
-    free(n->cost);
-}
-
 int get_network_layer_classes(network *n, int index)
 {
 	return n->layers[index].classes;

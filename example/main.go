@@ -31,10 +31,10 @@ func main() {
 	}
 
 	n := darknet.YOLONetwork{
-		DataConfiguration: *dataConfigFile,
-		ConfigurationFile: *configFile,
-		WeightsFile:       *weightsFile,
-		Threshold:         .5,
+		DataConfigurationFile:    *dataConfigFile,
+		NetworkConfigurationFile: *configFile,
+		WeightsFile:              *weightsFile,
+		Threshold:                .5,
 	}
 	if err := n.Init(); err != nil {
 		printError(err)

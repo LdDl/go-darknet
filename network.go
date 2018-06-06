@@ -9,14 +9,15 @@ import "C"
 import (
 	"errors"
 	"time"
+	"unsafe"
 )
 
 // YOLONetwork represents a neural network using YOLO.
 type YOLONetwork struct {
-	DataConfiguration string
-	ConfigurationFile string
-	WeightsFile       string
-	Threshold         float32
+	DataConfigurationFile    string
+	NetworkConfigurationFile string
+	WeightsFile              string
+	Threshold                float32
 
 	ClassNames []string
 	Classes    int
@@ -31,11 +32,12 @@ var errUnableToInitNetwork = errors.New("unable to initialise")
 
 // Init the network.
 func (n *YOLONetwork) Init() error {
-	n.cNet = C.load_network(
-		C._GoStringPtr(n.ConfigurationFile),
-		C._GoStringPtr(n.WeightsFile),
-		0,
-	)
+	nCfg := C.CString(n.NetworkConfigurationFile)
+	defer C.free(unsafe.Pointer(nCfg))
+	wFile := C.CString(n.WeightsFile)
+	defer C.free(unsafe.Pointer(wFile))
+
+	n.cNet = C.load_network(nCfg, wFile, 0)
 
 	if n.cNet == nil {
 		return errUnableToInitNetwork
@@ -51,7 +53,7 @@ func (n *YOLONetwork) Init() error {
 	n.nms = .45
 
 	n.Classes = int(C.get_network_layer_classes(n.cNet, n.cNet.n-1))
-	cClassNames := loadClassNames(n.DataConfiguration)
+	cClassNames := loadClassNames(n.DataConfigurationFile)
 	defer freeClassNames(cClassNames)
 	n.ClassNames = makeClassNames(cClassNames, n.Classes)
 
