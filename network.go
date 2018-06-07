@@ -14,6 +14,7 @@ import (
 
 // YOLONetwork represents a neural network using YOLO.
 type YOLONetwork struct {
+	GPUDeviceIndex           int
 	DataConfigurationFile    string
 	NetworkConfigurationFile string
 	WeightsFile              string
@@ -37,6 +38,8 @@ func (n *YOLONetwork) Init() error {
 	wFile := C.CString(n.WeightsFile)
 	defer C.free(unsafe.Pointer(wFile))
 
+	// GPU device ID must be set before `load_network()` is invoked.
+	C.cuda_set_device(C.int(n.GPUDeviceIndex))
 	n.cNet = C.load_network(nCfg, wFile, 0)
 
 	if n.cNet == nil {

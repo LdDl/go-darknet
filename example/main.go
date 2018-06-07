@@ -31,6 +31,7 @@ func main() {
 	}
 
 	n := darknet.YOLONetwork{
+		GPUDeviceIndex:           0,
 		DataConfigurationFile:    *dataConfigFile,
 		NetworkConfigurationFile: *configFile,
 		WeightsFile:              *weightsFile,
