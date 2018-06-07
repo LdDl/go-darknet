@@ -83,7 +83,7 @@ func (n *YOLONetwork) Detect(img *Image) (*DetectionResult, error) {
 	endTime := time.Now()
 	defer C.free_detections(result.detections, result.detections_len)
 
-	ds := makeDetections(result.detections, int(result.detections_len),
+	ds := makeDetections(img, result.detections, int(result.detections_len),
 		n.Threshold, n.Classes, n.ClassNames)
 
 	endTimeOverall := time.Now()

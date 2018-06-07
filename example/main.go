@@ -60,10 +60,11 @@ func main() {
 	for _, d := range dr.Detections {
 		for i := range d.ClassIDs {
 			bBox := d.BoundingBox
-			fmt.Printf("%s (%d): %.4f%% | start point: (%f,%f) | height: %f | width: %f\n",
+			fmt.Printf("%s (%d): %.4f%% | start point: (%d,%d) | end point: (%d, %d)\n",
 				d.ClassNames[i], d.ClassIDs[i],
 				d.Probabilities[i],
-				bBox.X, bBox.Y, bBox.Height, bBox.Width,
+				bBox.StartPoint.X, bBox.StartPoint.Y,
+				bBox.EndPoint.X, bBox.EndPoint.Y,
 			)
 		}
 	}

@@ -4,6 +4,7 @@ package darknet
 //
 // #include "detection.h"
 import "C"
+import "image"
 
 // Detection represents a detection.
 type Detection struct {
@@ -14,7 +15,7 @@ type Detection struct {
 	Probabilities []float32
 }
 
-func makeDetection(det *C.detection, threshold float32, classes int,
+func makeDetection(img *Image, det *C.detection, threshold float32, classes int,
 	classNames []string) *Detection {
 	dClassIDs := make([]int, 0)
 	dClassNames := make([]string, 0)
@@ -31,12 +32,20 @@ func makeDetection(det *C.detection, threshold float32, classes int,
 		}
 	}
 
+	fImgW := C.float(img.Width)
+	fImgH := C.float(img.Height)
+	halfRatioW := det.bbox.w / 2.0
+	halfRatioH := det.bbox.h / 2.0
 	out := Detection{
 		BoundingBox: BoundingBox{
-			X:      float32(det.bbox.x),
-			Y:      float32(det.bbox.y),
-			Width:  float32(det.bbox.w),
-			Height: float32(det.bbox.h),
+			StartPoint: image.Point{
+				X: int((det.bbox.x - halfRatioW) * fImgW),
+				Y: int((det.bbox.y - halfRatioH) * fImgH),
+			},
+			EndPoint: image.Point{
+				X: int((det.bbox.x + halfRatioW) * fImgW),
+				Y: int((det.bbox.y + halfRatioH) * fImgH),
+			},
 		},
 
 		ClassIDs:      dClassIDs,
@@ -47,13 +56,13 @@ func makeDetection(det *C.detection, threshold float32, classes int,
 	return &out
 }
 
-func makeDetections(detections *C.detection, detectionsLength int,
+func makeDetections(img *Image, detections *C.detection, detectionsLength int,
 	threshold float32, classes int, classNames []string) []*Detection {
 	// Make list of detection objects.
 	ds := make([]*Detection, detectionsLength)
 	for i := 0; i < int(detectionsLength); i++ {
 		det := C.get_detection(detections, C.int(i), C.int(classes))
-		d := makeDetection(det, threshold, classes, classNames)
+		d := makeDetection(img, det, threshold, classes, classNames)
 		ds[i] = d
 	}
 
