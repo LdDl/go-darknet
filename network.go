@@ -28,8 +28,10 @@ type YOLONetwork struct {
 	nms                 float32
 }
 
-var errNetworkNotInit = errors.New("network not initialised")
-var errUnableToInitNetwork = errors.New("unable to initialise")
+var (
+	errNetworkNotInit      = errors.New("network not initialised")
+	errUnableToInitNetwork = errors.New("unable to initialise")
+)
 
 // Init the network.
 func (n *YOLONetwork) Init() error {

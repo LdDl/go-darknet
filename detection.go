@@ -4,7 +4,10 @@ package darknet
 //
 // #include "detection.h"
 import "C"
-import "image"
+import (
+	"image"
+	"time"
+)
 
 // Detection represents a detection.
 type Detection struct {
@@ -15,8 +18,19 @@ type Detection struct {
 	Probabilities []float32
 }
 
+// DetectionResult represents the inference results from the network.
+type DetectionResult struct {
+	Detections           []*Detection
+	NetworkOnlyTimeTaken time.Duration
+	OverallTimeTaken     time.Duration
+}
+
 func makeDetection(img *Image, det *C.detection, threshold float32, classes int,
 	classNames []string) *Detection {
+
+	if det == nil {
+		return &Detection{}
+	}
 	dClassIDs := make([]int, 0)
 	dClassNames := make([]string, 0)
 	dProbs := make([]float32, 0)

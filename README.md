@@ -1,6 +1,6 @@
 # go-darknet: Go bindings for Darknet
 
-[![GoDoc](https://godoc.org/github.com/gyonluks/go-darknet?status.svg)](https://godoc.org/github.com/gyonluks/go-darknet)
+[![GoDoc](https://godoc.org/github.com/LdDl/go-darknet?status.svg)](https://godoc.org/github.com/LdDl/go-darknet)
 
 go-darknet is a Go package, which uses Cgo to enable Go applications to use
 YOLO in [Darknet].
@@ -82,7 +82,7 @@ locations mentioned above.
 ## Install
 
 ```shell
-go get github.com/gyonluks/go-darknet
+go get github.com/LdDl/go-darknet
 ```
 
 The package name is `darknet`.
@@ -95,7 +95,7 @@ refer to the code on how to use this Go package.
 Building and running the example program is easy:
 
 ```shell
-go install github.com/gyonluks/go-darknet/example
+go install github.com/LdDl/go-darknet/example
 
 # The executable `example` will be available in your $GOPATH/bin
 $GOPATH/bin/example
@@ -113,4 +113,4 @@ See go-darknet's API documentation at [GoDoc].
 [include/darknet.h]: https://github.com/pjreddie/darknet/blob/master/include/darknet.h
 [Makefile]: https://github.com/pjreddie/darknet/blob/master/Makefile
 [example]: /example
-[GoDoc]: https://godoc.org/github.com/gyonluks/go-darknet
+[GoDoc]: https://godoc.org/github.com/LdDl/go-darknet

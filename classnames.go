@@ -1,7 +1,7 @@
 package darknet
 
 // #include <stdlib.h>
-// #include "class_name.h"
+// #include "classnames.h"
 import "C"
 import "unsafe"
 

@@ -8,6 +8,4 @@ struct network_box_result {
 };
 
 extern int get_network_layer_classes(network *n, int index);
-extern struct network_box_result perform_network_detect(
-    network *n, image *img,
-    int classes, float thresh, float hier_thresh, float nms);
+extern struct network_box_result perform_network_detect(network *n, image *img, int classes, float thresh, float hier_thresh, float nms);
