@@ -54,8 +54,8 @@ func (n *YOLONetwork) Init() error {
 	// Currently, hierarchal threshold is always 0.5.
 	n.hierarchalThreshold = .5
 
-	// Currently NMS is always 0.45.
-	n.nms = .45
+	// Currently NMS is always 0.4.
+	n.nms = .4
 
 	n.Classes = int(C.get_network_layer_classes(n.cNet, n.cNet.n-1))
 	cClassNames := loadClassNames(n.DataConfigurationFile)
