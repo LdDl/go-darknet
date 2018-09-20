@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	darknet "github.com/gyonluks/go-darknet"
+	darknet "github.com/LdDl/go-darknet"
 )
 
 var dataConfigFile = flag.String("dataConfigFile", "",
@@ -43,6 +43,7 @@ func main() {
 	}
 	defer n.Close()
 
+	log.Println("we are here")
 	img, err := darknet.ImageFromPath(*imageFile)
 	if err != nil {
 		printError(err)
@@ -55,7 +56,7 @@ func main() {
 		printError(err)
 		return
 	}
-
+	log.Println("we are here 2")
 	log.Println("Network-only time taken:", dr.NetworkOnlyTimeTaken)
 	log.Println("Overall time taken:", dr.OverallTimeTaken)
 	for _, d := range dr.Detections {

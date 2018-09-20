@@ -5,11 +5,11 @@ This is an example Go application which uses go-darknet.
 ## Install
 
 ```shell
-go get github.com/gyonluks/go-darknet
-go install github.com/gyonluks/go-darknet/example
+go get github.com/LdDl/go-darknet
+go install github.com/LdDl/go-darknet/example
 
 # Alternatively
-go build github.com/gyonluks/go-darknet/example
+go build github.com/LdDl/go-darknet/example
 ```
 
 An executable named `example` should be in your `$GOPATH/bin`, if using
