@@ -56,7 +56,7 @@ func main() {
 		printError(err)
 		return
 	}
-	log.Println("we are here 2")
+
 	log.Println("Network-only time taken:", dr.NetworkOnlyTimeTaken)
 	log.Println("Overall time taken:", dr.OverallTimeTaken)
 	for _, d := range dr.Detections {
