@@ -1,3 +1,4 @@
+# FORK of go-darknet
 # go-darknet: Go bindings for Darknet
 
 [![GoDoc](https://godoc.org/github.com/LdDl/go-darknet?status.svg)](https://godoc.org/github.com/LdDl/go-darknet)
@@ -10,6 +11,9 @@ YOLO in [Darknet].
 go-darknet follows [Darknet]'s [license].
 
 ## Requirements
+
+For proper codebase please use my fork of [darknet](https://github.com/LdDl/darknet)
+There are instructions for defining GPU/CPU + function for loading image from memory.
 
 In order to use go-darknet, `libdarknet.so` should be available in one of
 the following locations:
@@ -24,60 +28,6 @@ Also, [darknet.h] should be available in one of the following locations:
 
 * /usr/include
 * /usr/local/include
-
-The include file [darknet.h] can be obtained from the `include` directory in
-[Darknet]'s codebase. However, some modifications will have to be made.
-
-### Modifying darknet.h for install
-
-Make a copy of [include/darknet.h] and put in the same directory as
-`libdarknet.so`.
-
-In Darknet's [Makefile], at the top, there are macros which look like the
-following:
-
-```
-GPU=0
-CUDNN=0
-OPENCV=0
-OPENMP=0
-DEBUG=0
-```
-
-If any of the above has the value `1`, they will need to be defined in
-[darknet.h].
-
-Do not define the ones with value `0` in [darknet.h]!
-
-For example, if `GPU=1` and `CUDNN=1`, they will need to be defined in
-[darknet.h] as follows:
-
-```C
-#ifndef DARKNET_API
-#define DARKNET_API
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <pthread.h>
-
-#define GPU 1
-#define CUDNN 1
-
-#define SECRET_NUM -1234
-extern int gpu_index;
-
-// The rest of darknet.h's code...
-```
-
-Note the lines `#include GPU 1` and `#include CUDNN 1`. They are added just
-after the C standard library's `#include` directives.
-
-It is important to replicate the activated macros (macros with value `1`)
-at the top of the [Makefile], with the corresponding `#define` directives
-in [darknet.h].
-
-After the changes are made to the copy of [darknet.h], copy it to one of the
-locations mentioned above.
 
 ## Install
 
@@ -104,8 +54,6 @@ $GOPATH/bin/example
 ## Documentation
 
 See go-darknet's API documentation at [GoDoc].
-
-
 
 [Darknet]: https://github.com/pjreddie/darknet
 [license]: https://github.com/pjreddie/darknet/blob/master/LICENSE

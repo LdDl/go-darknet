@@ -22,6 +22,9 @@ func printError(err error) {
 }
 
 func main() {
+
+	darknet.ImageFromMemory([]byte{123})
+
 	flag.Parse()
 
 	if *dataConfigFile == "" || *configFile == "" || *weightsFile == "" ||
