@@ -4,3 +4,7 @@ example/coco.data
 example/coco.names
 example/yolov3-320.cfg
 example/yolov3-320.weights
+example/yolov3-416.cfg
+example/yolov3-416.weights
+example/yolov3.cfg
+example/yolov3.weights
