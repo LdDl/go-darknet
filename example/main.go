@@ -22,13 +22,11 @@ func printError(err error) {
 }
 
 func main() {
-
-	darknet.ImageFromMemory([]byte{123})
-
 	flag.Parse()
 
 	if *dataConfigFile == "" || *configFile == "" || *weightsFile == "" ||
 		*imageFile == "" {
+
 		flag.Usage()
 		return
 	}
@@ -46,7 +44,6 @@ func main() {
 	}
 	defer n.Close()
 
-	log.Println("we are here")
 	img, err := darknet.ImageFromPath(*imageFile)
 	if err != nil {
 		printError(err)
