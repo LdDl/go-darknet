@@ -1,1 +1,6 @@
 example/main
+example/sample.jpg
+example/coco.data
+example/coco.names
+example/yolov3-320.cfg
+example/yolov3-320.weights
