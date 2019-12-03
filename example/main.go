@@ -58,8 +58,9 @@ func main() {
 	}
 
 	log.Println("Network-only time taken:", dr.NetworkOnlyTimeTaken)
-	log.Println("Overall time taken:", dr.OverallTimeTaken)
+	log.Println("Overall time taken:", dr.OverallTimeTaken, len(dr.Detections))
 	for _, d := range dr.Detections {
+
 		for i := range d.ClassIDs {
 			bBox := d.BoundingBox
 			fmt.Printf("%s (%d): %.4f%% | start point: (%d,%d) | end point: (%d, %d)\n",

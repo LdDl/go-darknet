@@ -21,7 +21,10 @@ if using `go build`.
 ```shell
 $GOPATH/bin/example
 ```
-
+or
+```go
+go run main.go -configFile=yolov3-320.cfg -dataConfigFile=coco.data -imageFile=sample.jpg -weightsFile=yolov3.weights
+```
 Please ensure that `libdarknet.so` is in your `$LD_LIBRARY_PATH`.
 
 ## Notes
