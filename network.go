@@ -8,6 +8,7 @@ package darknet
 import "C"
 import (
 	"errors"
+	"time"
 	"unsafe"
 )
 
@@ -77,27 +78,27 @@ func (n *YOLONetwork) Close() error {
 }
 
 // Detect specified image.
-// func (n *YOLONetwork) Detect(img *Image) (*DetectionResult, error) {
-// 	if n.cNet == nil {
-// 		return nil, errNetworkNotInit
-// 	}
+func (n *YOLONetwork) Detect(img *DarknetImage) (*DetectionResult, error) {
+	if n.cNet == nil {
+		return nil, errNetworkNotInit
+	}
 
-// 	startTime := time.Now()
-// 	result := C.perform_network_detect(n.cNet, &img.image, C.int(n.Classes),
-// 		C.float(n.Threshold), C.float(n.hierarchalThreshold), C.float(n.nms))
-// 	endTime := time.Now()
-// 	defer C.free_detections(result.detections, result.detections_len)
+	startTime := time.Now()
+	C.network_predict_image(n.cNet, img.image)
+	// result := C.perform_network_detect(n.cNet, &img.image, C.int(n.Classes), C.float(n.Threshold), C.float(n.hierarchalThreshold), C.float(n.nms))
+	endTime := time.Now()
+	// defer C.free_detections(result.detections, result.detections_len)
 
-// 	ds := makeDetections(img, result.detections, int(result.detections_len),
-// 		n.Threshold, n.Classes, n.ClassNames)
+	// ds := makeDetections(img, result.detections, int(result.detections_len),
+	// 	n.Threshold, n.Classes, n.ClassNames)
 
-// 	endTimeOverall := time.Now()
+	endTimeOverall := time.Now()
 
-// 	out := DetectionResult{
-// 		Detections:           ds,
-// 		NetworkOnlyTimeTaken: endTime.Sub(startTime),
-// 		OverallTimeTaken:     endTimeOverall.Sub(startTime),
-// 	}
+	out := DetectionResult{
+		// Detections:           ds,
+		NetworkOnlyTimeTaken: endTime.Sub(startTime),
+		OverallTimeTaken:     endTimeOverall.Sub(startTime),
+	}
 
-// 	return &out, nil
-// }
+	return &out, nil
+}
