@@ -2,8 +2,9 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"image/jpeg"
 	"log"
+	"os"
 
 	darknet "github.com/LdDl/go-darknet"
 )
@@ -44,31 +45,41 @@ func main() {
 	}
 	defer n.Close()
 
-	img, err := darknet.ImageFromPath(*imageFile)
+	infile, err := os.Open(*imageFile)
 	if err != nil {
-		printError(err)
-		return
+		panic(err.Error())
 	}
-	defer img.Close()
-
-	dr, err := n.Detect(img)
+	defer infile.Close()
+	src, err := jpeg.Decode(infile)
 	if err != nil {
-		printError(err)
-		return
+		panic(err.Error())
 	}
 
-	log.Println("Network-only time taken:", dr.NetworkOnlyTimeTaken)
-	log.Println("Overall time taken:", dr.OverallTimeTaken, len(dr.Detections))
-	for _, d := range dr.Detections {
-
-		for i := range d.ClassIDs {
-			bBox := d.BoundingBox
-			fmt.Printf("%s (%d): %.4f%% | start point: (%d,%d) | end point: (%d, %d)\n",
-				d.ClassNames[i], d.ClassIDs[i],
-				d.Probabilities[i],
-				bBox.StartPoint.X, bBox.StartPoint.Y,
-				bBox.EndPoint.X, bBox.EndPoint.Y,
-			)
-		}
+	imgFalot32, err := darknet.Image2Float32(src)
+	if err != nil {
+		panic(err.Error())
 	}
+	_ = imgFalot32
+	// defer img.Close()
+
+	// dr, err := n.Detect(img)
+	// if err != nil {
+	// 	printError(err)
+	// 	return
+	// }
+
+	// log.Println("Network-only time taken:", dr.NetworkOnlyTimeTaken)
+	// log.Println("Overall time taken:", dr.OverallTimeTaken, len(dr.Detections))
+	// for _, d := range dr.Detections {
+
+	// 	for i := range d.ClassIDs {
+	// 		bBox := d.BoundingBox
+	// 		fmt.Printf("%s (%d): %.4f%% | start point: (%d,%d) | end point: (%d, %d)\n",
+	// 			d.ClassNames[i], d.ClassIDs[i],
+	// 			d.Probabilities[i],
+	// 			bBox.StartPoint.X, bBox.StartPoint.Y,
+	// 			bBox.EndPoint.X, bBox.EndPoint.Y,
+	// 		)
+	// 	}
+	// }
 }

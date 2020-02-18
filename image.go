@@ -1,66 +1,40 @@
 package darknet
 
 // #include <darknet.h>
-import "C"
 import (
-	"errors"
+	"C"
+	"image"
 	"unsafe"
 )
 
-// Image represents the image buffer.
-type Image struct {
-	Width  int
-	Height int
+// DarknetImage represents the image buffer.
+// type DarknetImage struct {
+// 	Width  int
+// 	Height int
+// 	image  C.image
+// }
 
-	image C.image
+func float_p(arr []float32) *C.float {
+	return (*C.float)(unsafe.Pointer(&arr[0]))
 }
 
-var (
-	errUnableToLoadImage = errors.New("unable to load image")
-)
+// Image2Float32 Returns []float32 representation of image.Image
+func Image2Float32(img image.Image) ([]float32, error) {
+	width := img.Bounds().Dx()
+	height := img.Bounds().Dy()
+	imgwh := width * height
+	imgSize := imgwh * 3
 
-// Close and release resources.
-func (img *Image) Close() error {
-	C.free_image(img.image)
-	return nil
-}
-
-// ImageFromPath reads image file specified by path.
-func ImageFromPath(path string) (*Image, error) {
-	p := C.CString(path)
-	defer C.free(unsafe.Pointer(p))
-
-	img := Image{
-		image: C.load_image_color(p, 0, 0),
+	ans := make([]float32, imgSize)
+	for x := 0; x < width; x++ {
+		for y := 0; y < height; y++ {
+			r, g, b, _ := img.At(y, x).RGBA()
+			rpix, gpix, bpix := float32(r>>8)/float32(255.0), float32(g>>8)/float32(255.0), float32(b>>8)/float32(255.0)
+			ans[y+x*height] = rpix
+			ans[y+x*height+imgwh] = gpix
+			ans[y+x*height+imgwh+imgwh] = bpix
+		}
 	}
 
-	if img.image.data == nil {
-		return nil, errUnableToLoadImage
-	}
-
-	img.Width = int(img.image.w)
-	img.Height = int(img.image.h)
-
-	return &img, nil
-}
-
-// ImageFromMemory reads image file data represented by the specified byte
-// slice.
-func ImageFromMemory(buf []byte) (*Image, error) {
-	cBuf := C.CBytes(buf)
-	defer C.free(cBuf)
-
-	img := Image{
-		image: C.load_image_from_memory_color((*C.uchar)(cBuf),
-			C.int(len(buf)), 0, 0),
-	}
-
-	if img.image.data == nil {
-		return nil, errUnableToLoadImage
-	}
-
-	img.Width = int(img.image.w)
-	img.Height = int(img.image.h)
-
-	return &img, nil
+	return ans, nil
 }
