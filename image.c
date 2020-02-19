@@ -15,3 +15,8 @@ image prepare_image(image img, int w, int h, int c){
     img.c=c;
     return img;
 }
+
+image new_image(int w, int h, int c){
+    image out = make_image(w, h, c);
+    return out;
+}

@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "detection.h": "c",
+        "network.h": "c"
+    }
+}

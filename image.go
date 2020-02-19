@@ -46,12 +46,14 @@ func Image2Float32(img image.Image) (DarknetImage, error) {
 	imgDarknet := DarknetImage{
 		Width:  width,
 		Height: height,
-		image:  C.new_darknet_image(),
+		// image:  C.new_darknet_image(),
 	}
 
-	imgDarknet.image = C.prepare_image(imgDarknet.image, C.int(width), C.int(height), 3)
-	imgDarknet.image.data = float_p(ans)
+	// imgDarknet.image = C.prepare_image(imgDarknet.image, C.int(width), C.int(height), 3)
+	// imgDarknet.image.data = float_p(ans)
 	// imgDarknet.image = C.resize_image(imgDarknet.image, 416, 416) // Do we need resize? (detection function actually does it)
+
+	imgDarknet.image = C.load_image_color(C.CString("/home/dimitrii/Downloads/mega.jpg"), 416, 416)
 
 	return imgDarknet, nil
 }

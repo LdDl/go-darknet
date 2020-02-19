@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"image/jpeg"
 	"log"
 	"os"
@@ -37,7 +38,7 @@ func main() {
 		DataConfigurationFile:    *dataConfigFile,
 		NetworkConfigurationFile: *configFile,
 		WeightsFile:              *weightsFile,
-		Threshold:                .5,
+		Threshold:                .25,
 	}
 	if err := n.Init(); err != nil {
 		printError(err)
@@ -54,6 +55,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
+	_ = src
 
 	imgDarknet, err := darknet.Image2Float32(src)
 	if err != nil {
@@ -67,18 +69,18 @@ func main() {
 		return
 	}
 	_ = dr
-	// log.Println("Network-only time taken:", dr.NetworkOnlyTimeTaken)
-	// log.Println("Overall time taken:", dr.OverallTimeTaken, len(dr.Detections))
-	// for _, d := range dr.Detections {
 
-	// 	for i := range d.ClassIDs {
-	// 		bBox := d.BoundingBox
-	// 		fmt.Printf("%s (%d): %.4f%% | start point: (%d,%d) | end point: (%d, %d)\n",
-	// 			d.ClassNames[i], d.ClassIDs[i],
-	// 			d.Probabilities[i],
-	// 			bBox.StartPoint.X, bBox.StartPoint.Y,
-	// 			bBox.EndPoint.X, bBox.EndPoint.Y,
-	// 		)
-	// 	}
-	// }
+	log.Println("Network-only time taken:", dr.NetworkOnlyTimeTaken)
+	log.Println("Overall time taken:", dr.OverallTimeTaken, len(dr.Detections))
+	for _, d := range dr.Detections {
+		for i := range d.ClassIDs {
+			bBox := d.BoundingBox
+			fmt.Printf("%s (%d): %.4f%% | start point: (%d,%d) | end point: (%d, %d)\n",
+				d.ClassNames[i], d.ClassIDs[i],
+				d.Probabilities[i],
+				bBox.StartPoint.X, bBox.StartPoint.Y,
+				bBox.EndPoint.X, bBox.EndPoint.Y,
+			)
+		}
+	}
 }
