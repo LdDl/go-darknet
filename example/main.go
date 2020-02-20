@@ -55,7 +55,6 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	_ = src
 
 	imgDarknet, err := darknet.Image2Float32(src)
 	if err != nil {
@@ -63,12 +62,11 @@ func main() {
 	}
 	defer imgDarknet.Close()
 
-	dr, err := n.Detect(&imgDarknet)
+	dr, err := n.Detect(imgDarknet)
 	if err != nil {
 		printError(err)
 		return
 	}
-	_ = dr
 
 	log.Println("Network-only time taken:", dr.NetworkOnlyTimeTaken)
 	log.Println("Overall time taken:", dr.OverallTimeTaken, len(dr.Detections))

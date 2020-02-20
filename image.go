@@ -26,34 +26,36 @@ func float_p(arr []float32) *C.float {
 }
 
 // Image2Float32 Returns []float32 representation of image.Image
-func Image2Float32(img image.Image) (DarknetImage, error) {
+func Image2Float32(img image.Image) (*DarknetImage, error) {
 	width := img.Bounds().Dx()
 	height := img.Bounds().Dy()
-	imgwh := width * height
-	imgSize := imgwh * 3
-
-	ans := make([]float32, imgSize)
+	ans := []float32{}
+	red := []float32{}
+	green := []float32{}
+	blue := []float32{}
 	for x := 0; x < width; x++ {
 		for y := 0; y < height; y++ {
 			r, g, b, _ := img.At(y, x).RGBA()
 			rpix, gpix, bpix := float32(r>>8)/float32(255.0), float32(g>>8)/float32(255.0), float32(b>>8)/float32(255.0)
-			ans[y+x*height] = rpix
-			ans[y+x*height+imgwh] = gpix
-			ans[y+x*height+imgwh+imgwh] = bpix
+			red = append(red, rpix)
+			green = append(green, gpix)
+			blue = append(blue, bpix)
 		}
 	}
+	ans = append(ans, red...)
+	ans = append(ans, green...)
+	ans = append(ans, blue...)
 
-	imgDarknet := DarknetImage{
+	imgDarknet := &DarknetImage{
 		Width:  width,
 		Height: height,
-		// image:  C.new_darknet_image(),
+		image:  C.make_image(C.int(width), C.int(height), 3),
 	}
+	// for i := range ans {
+	// 	C.set_data_f32_val(imgDarknet.image.data, C.int(i), C.float(ans[i]))
+	// }
+	C.fill_image_f32(&imgDarknet.image, C.int(width), C.int(height), 3, float_p(ans))
 
-	// imgDarknet.image = C.prepare_image(imgDarknet.image, C.int(width), C.int(height), 3)
-	// imgDarknet.image.data = float_p(ans)
-	// imgDarknet.image = C.resize_image(imgDarknet.image, 416, 416) // Do we need resize? (detection function actually does it)
-
-	imgDarknet.image = C.load_image_color(C.CString("/home/dimitrii/Downloads/mega.jpg"), 416, 416)
-
+	// imgDarknet.image = C.load_image_color(C.CString("~/Downloads/mega.jpg"), 416, 416)
 	return imgDarknet, nil
 }

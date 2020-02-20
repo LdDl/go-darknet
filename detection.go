@@ -26,15 +26,12 @@ type DetectionResult struct {
 }
 
 func makeDetection(img *DarknetImage, det *C.detection, threshold float32, classes int, classNames []string) *Detection {
-
 	if det == nil {
 		return &Detection{}
 	}
-
 	dClassIDs := make([]int, 0)
 	dClassNames := make([]string, 0)
 	dProbs := make([]float32, 0)
-
 	for i := 0; i < int(classes); i++ {
 		dProb := float32(C.get_detection_probability(det, C.int(i), C.int(classes)))
 		if dProb > threshold {
@@ -44,7 +41,6 @@ func makeDetection(img *DarknetImage, det *C.detection, threshold float32, class
 			dProbs = append(dProbs, dProb*100)
 		}
 	}
-
 	fImgW := C.float(img.Width)
 	fImgH := C.float(img.Height)
 	halfRatioW := det.bbox.w / 2.0
@@ -65,7 +61,6 @@ func makeDetection(img *DarknetImage, det *C.detection, threshold float32, class
 		ClassNames:    dClassNames,
 		Probabilities: dProbs,
 	}
-
 	return &out
 }
 

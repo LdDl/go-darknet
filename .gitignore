@@ -10,3 +10,6 @@ example/yolov3.cfg
 example/yolov3.weights
 darknet.h
 *.so
+predictions.png
+predictions.jpg
+main

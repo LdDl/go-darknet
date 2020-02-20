@@ -1,22 +1,12 @@
 #include <darknet.h>
 
-image new_darknet_image() {
-    image img;
-    img.w = 0;
-    img.h = 0;
-    img.c = 0;
-    img.data = NULL;
-    return img;
+void fill_image_f32(image* im, int w, int h, int c, float* data) {
+    int i;
+    for (i = 0; i < w*h*c; i++) {
+        im->data[i] = data[i];
+    }
 }
 
-image prepare_image(image img, int w, int h, int c){
-    img.w=w;
-    img.h=h;
-    img.c=c;
-    return img;
-}
-
-image new_image(int w, int h, int c){
-    image out = make_image(w, h, c);
-    return out;
+void set_data_f32_val(float* data, int index, float value) {
+    data[index] = value;
 }

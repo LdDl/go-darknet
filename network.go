@@ -63,11 +63,8 @@ func (n *YOLONetwork) Init() error {
 	// C.set_batch_network(n.cNet, 1)
 	C.srand(2222222)
 
-	// Currently, hierarchal threshold is always 0.5.
-	n.hierarchalThreshold = .5
-
-	// Currently NMS is always 0.4.
-	n.nms = .45
+	n.hierarchalThreshold = 0.5
+	n.nms = 0.45
 
 	metadata := C.get_metadata(nCfg)
 	n.Classes = int(metadata.classes)
@@ -93,7 +90,7 @@ func (n *YOLONetwork) Detect(img *DarknetImage) (*DetectionResult, error) {
 		return nil, errNetworkNotInit
 	}
 	startTime := time.Now()
-	result := C.perform_network_detect(n.cNet, &img.image, C.int(n.Classes), C.float(n.Threshold), C.float(n.hierarchalThreshold), C.float(n.nms))
+	result := C.perform_network_detect(n.cNet, &img.image, C.int(n.Classes), C.float(n.Threshold), C.float(n.hierarchalThreshold), C.float(n.nms), C.int(0))
 	endTime := time.Now()
 	defer C.free_detections(result.detections, result.detections_len)
 	ds := makeDetections(img, result.detections, int(result.detections_len), n.Threshold, n.Classes, n.ClassNames)
