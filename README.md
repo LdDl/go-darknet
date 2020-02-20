@@ -1,4 +1,4 @@
-# FORK of go-darknet https://github.com/gyonluks/go-darknet
+# FORK of go-darknet https://github.com/gyonluks/go-darknet applied to FORK of Darknet https://github.com/AlexeyAB/darknet
 # go-darknet: Go bindings for Darknet
 
 [![GoDoc](https://godoc.org/github.com/LdDl/go-darknet?status.svg)](https://godoc.org/github.com/LdDl/go-darknet)
@@ -12,7 +12,7 @@ go-darknet follows [Darknet]'s [license].
 
 ## Requirements
 
-For proper codebase please use fork of [darknet](https://github.com/LdDl/darknet)
+For proper codebase please use fork of [darknet](https://github.com/AlexeyAB/darknet)
 There are instructions for defining GPU/CPU + function for loading image from memory.
 
 In order to use go-darknet, `libdarknet.so` should be available in one of
@@ -73,6 +73,6 @@ See go-darknet's API documentation at [GoDoc].
 [license]: https://github.com/pjreddie/darknet/blob/master/LICENSE
 [darknet.h]: https://github.com/pjreddie/darknet/blob/master/include/darknet.h
 [include/darknet.h]: https://github.com/pjreddie/darknet/blob/master/include/darknet.h
-[Makefile]: https://github.com/pjreddie/darknet/blob/master/Makefile
+[Makefile]: https://github.com/alexeyab/darknet/blob/master/Makefile
 [example]: /example
 [GoDoc]: https://godoc.org/github.com/LdDl/go-darknet
