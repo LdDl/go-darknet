@@ -1,0 +1,4 @@
+ Try to load cfg: /home/dimitrii/alexeyab_last/darknet/train_mine/yolov3-common/common_inference.cfg, clear = 0 
+net.optimized_memory = 0 
+batch = 1, time_steps = 1, train = 1 
+ Try to load weights: /home/dimitrii/alexeyab_last/darknet/backup-yolov3-common/common_220000.weights 

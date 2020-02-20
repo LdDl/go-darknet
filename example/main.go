@@ -59,22 +59,22 @@ func main() {
 	}
 
 	// bytes <<<<<<<<<<<<<
-	imgBytes, err := imageToBytes(src)
-	if err != nil {
-		panic(err.Error())
-	}
-	imgDarknet, err := darknet.ImageFromMemory(imgBytes, 4032, 3024)
-	if err != nil {
-		panic(err.Error())
-	}
-	defer imgDarknet.Close()
-	// bytes >>>>>>>>>>>>>
-
-	// imgDarknet, err := darknet.Image2Float32(src)
+	// imgBytes, err := imageToBytes(src)
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
+	// imgDarknet, err := darknet.ImageFromMemory(imgBytes, 4032, 3024)
 	// if err != nil {
 	// 	panic(err.Error())
 	// }
 	// defer imgDarknet.Close()
+	// bytes >>>>>>>>>>>>>
+
+	imgDarknet, err := darknet.Image2Float32(src)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer imgDarknet.Close()
 
 	dr, err := n.Detect(imgDarknet)
 	if err != nil {

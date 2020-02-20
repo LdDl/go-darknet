@@ -4,9 +4,10 @@ package darknet
 // #include "image.h"
 import "C"
 import (
-	"fmt"
 	"image"
 	"unsafe"
+
+	"golang.org/x/image/draw"
 )
 
 // DarknetImage represents the image buffer.
@@ -26,18 +27,21 @@ func float_p(arr []float32) *C.float {
 	return (*C.float)(unsafe.Pointer(&arr[0]))
 }
 
-// Image2Float32 Returns []float32 representation of image.Image
-func Image2Float32(img image.Image) (*DarknetImage, error) {
-	width := img.Bounds().Dx()
-	height := img.Bounds().Dy()
+// https://stackoverflow.com/questions/33186783/get-a-pixel-array-from-from-golang-image-image/59747737#59747737
+func image_2_array_pix(src image.Image) []float32 {
+	bounds := src.Bounds()
+	width, height := bounds.Max.X, bounds.Max.Y
+	src_rgba := image.NewRGBA(src.Bounds())
+	draw.Copy(src_rgba, image.Point{}, src, src.Bounds(), draw.Src, nil)
 	ans := []float32{}
 	red := []float32{}
 	green := []float32{}
 	blue := []float32{}
-	for x := 0; x < width; x++ {
-		for y := 0; y < height; y++ {
-			r, g, b, _ := img.At(y, x).RGBA()
-			rpix, gpix, bpix := float32(r>>8)/float32(255.0), float32(g>>8)/float32(255.0), float32(b>>8)/float32(255.0)
+	for y := 0; y < height; y++ {
+		for x := 0; x < width; x++ {
+			idx_s := (y*width + x) * 4
+			pix := src_rgba.Pix[idx_s : idx_s+4]
+			rpix, gpix, bpix := float32(pix[0])/257.0, float32(pix[1])/257.0, float32(pix[2])/257.0
 			red = append(red, rpix)
 			green = append(green, gpix)
 			blue = append(blue, bpix)
@@ -46,7 +50,14 @@ func Image2Float32(img image.Image) (*DarknetImage, error) {
 	ans = append(ans, red...)
 	ans = append(ans, green...)
 	ans = append(ans, blue...)
+	return ans
+}
 
+// Image2Float32 Returns []float32 representation of image.Image
+func Image2Float32(img image.Image) (*DarknetImage, error) {
+	ans := image_2_array_pix(img)
+	width := img.Bounds().Dx()
+	height := img.Bounds().Dy()
 	imgDarknet := &DarknetImage{
 		Width:  width,
 		Height: height,
@@ -55,40 +66,7 @@ func Image2Float32(img image.Image) (*DarknetImage, error) {
 	// for i := range ans {
 	// 	C.set_data_f32_val(imgDarknet.image.data, C.int(i), C.float(ans[i]))
 	// }
-	fmt.Println(ans[:100])
-	// C.fill_image_f32(&imgDarknet.image, C.int(width), C.int(height), 3, float_p(ans))
-	// newImg := C.resize_image_golang(imgDarknet.image, 416, 416)
-	// r, g, b, _ := img.At(0, 0).RGBA()
-	// rpix, gpix, bpix := float32(r>>8)/float32(255.0), float32(g>>8)/float32(255.0), float32(b>>8)/float32(255.0)
-	// fmt.Println(rpix, gpix, bpix)
-
+	C.fill_image_f32(&imgDarknet.image, C.int(width), C.int(height), 3, float_p(ans))
 	// imgDarknet.image = C.load_image_color(C.CString("/home/dimitrii/Downloads/mega.jpg"), 4032, 3024)
 	return imgDarknet, nil
-}
-
-// ImageFromMemory reads image file data represented by the specified byte
-// slice.
-func ImageFromMemory(buf []byte, width, height int) (*DarknetImage, error) {
-	cBuf := C.CBytes(buf)
-	defer C.free(cBuf)
-
-	imgd := C.make_image(C.int(width), C.int(height), 3)
-	// var imgd C.image
-	// imgd.w = width
-	// imgd.h = height
-	// imgd.c = 3
-
-	C.copy_image_from_bytes(imgd, (*C.char)(cBuf))
-	img := DarknetImage{
-		image: imgd,
-	}
-
-	if img.image.data == nil {
-		return nil, fmt.Errorf("nil image")
-	}
-
-	img.Width = int(img.image.w)
-	img.Height = int(img.image.h)
-
-	return &img, nil
 }

@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "detection.h": "c",
-        "network.h": "c"
+        "network.h": "c",
+        "random": "c"
     }
 }
