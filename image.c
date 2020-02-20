@@ -10,3 +10,7 @@ void fill_image_f32(image* im, int w, int h, int c, float* data) {
 void set_data_f32_val(float* data, int index, float value) {
     data[index] = value;
 }
+
+image resize_image_golang(image im, int w, int h) {
+    return resize_image(im, w, h);
+}

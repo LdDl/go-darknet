@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
+	"image"
 	"image/jpeg"
 	"log"
 	"os"
@@ -56,11 +58,23 @@ func main() {
 		panic(err.Error())
 	}
 
-	imgDarknet, err := darknet.Image2Float32(src)
+	// bytes <<<<<<<<<<<<<
+	imgBytes, err := imageToBytes(src)
+	if err != nil {
+		panic(err.Error())
+	}
+	imgDarknet, err := darknet.ImageFromMemory(imgBytes, 4032, 3024)
 	if err != nil {
 		panic(err.Error())
 	}
 	defer imgDarknet.Close()
+	// bytes >>>>>>>>>>>>>
+
+	// imgDarknet, err := darknet.Image2Float32(src)
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
+	// defer imgDarknet.Close()
 
 	dr, err := n.Detect(imgDarknet)
 	if err != nil {
@@ -81,4 +95,10 @@ func main() {
 			)
 		}
 	}
+}
+
+func imageToBytes(img image.Image) ([]byte, error) {
+	buf := new(bytes.Buffer)
+	err := jpeg.Encode(buf, img, nil)
+	return buf.Bytes(), err
 }

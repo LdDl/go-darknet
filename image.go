@@ -4,6 +4,7 @@ package darknet
 // #include "image.h"
 import "C"
 import (
+	"fmt"
 	"image"
 	"unsafe"
 )
@@ -54,8 +55,40 @@ func Image2Float32(img image.Image) (*DarknetImage, error) {
 	// for i := range ans {
 	// 	C.set_data_f32_val(imgDarknet.image.data, C.int(i), C.float(ans[i]))
 	// }
-	C.fill_image_f32(&imgDarknet.image, C.int(width), C.int(height), 3, float_p(ans))
+	fmt.Println(ans[:100])
+	// C.fill_image_f32(&imgDarknet.image, C.int(width), C.int(height), 3, float_p(ans))
+	// newImg := C.resize_image_golang(imgDarknet.image, 416, 416)
+	// r, g, b, _ := img.At(0, 0).RGBA()
+	// rpix, gpix, bpix := float32(r>>8)/float32(255.0), float32(g>>8)/float32(255.0), float32(b>>8)/float32(255.0)
+	// fmt.Println(rpix, gpix, bpix)
 
-	// imgDarknet.image = C.load_image_color(C.CString("~/Downloads/mega.jpg"), 416, 416)
+	// imgDarknet.image = C.load_image_color(C.CString("/home/dimitrii/Downloads/mega.jpg"), 4032, 3024)
 	return imgDarknet, nil
+}
+
+// ImageFromMemory reads image file data represented by the specified byte
+// slice.
+func ImageFromMemory(buf []byte, width, height int) (*DarknetImage, error) {
+	cBuf := C.CBytes(buf)
+	defer C.free(cBuf)
+
+	imgd := C.make_image(C.int(width), C.int(height), 3)
+	// var imgd C.image
+	// imgd.w = width
+	// imgd.h = height
+	// imgd.c = 3
+
+	C.copy_image_from_bytes(imgd, (*C.char)(cBuf))
+	img := DarknetImage{
+		image: imgd,
+	}
+
+	if img.image.data == nil {
+		return nil, fmt.Errorf("nil image")
+	}
+
+	img.Width = int(img.image.w)
+	img.Height = int(img.image.h)
+
+	return &img, nil
 }
