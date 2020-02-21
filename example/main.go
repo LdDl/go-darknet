@@ -12,8 +12,6 @@ import (
 	darknet "github.com/LdDl/go-darknet"
 )
 
-var dataConfigFile = flag.String("dataConfigFile", "",
-	"Path to data configuration file. Example: cfg/coco.data")
 var configFile = flag.String("configFile", "",
 	"Path to network layer configuration file. Example: cfg/yolov3.cfg")
 var weightsFile = flag.String("weightsFile", "",
@@ -28,7 +26,7 @@ func printError(err error) {
 func main() {
 	flag.Parse()
 
-	if *dataConfigFile == "" || *configFile == "" || *weightsFile == "" ||
+	if *configFile == "" || *weightsFile == "" ||
 		*imageFile == "" {
 
 		flag.Usage()
@@ -37,7 +35,6 @@ func main() {
 
 	n := darknet.YOLONetwork{
 		GPUDeviceIndex:           0,
-		DataConfigurationFile:    *dataConfigFile,
 		NetworkConfigurationFile: *configFile,
 		WeightsFile:              *weightsFile,
 		Threshold:                .25,
@@ -57,18 +54,6 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-
-	// bytes <<<<<<<<<<<<<
-	// imgBytes, err := imageToBytes(src)
-	// if err != nil {
-	// 	panic(err.Error())
-	// }
-	// imgDarknet, err := darknet.ImageFromMemory(imgBytes, 4032, 3024)
-	// if err != nil {
-	// 	panic(err.Error())
-	// }
-	// defer imgDarknet.Close()
-	// bytes >>>>>>>>>>>>>
 
 	imgDarknet, err := darknet.Image2Float32(src)
 	if err != nil {

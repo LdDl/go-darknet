@@ -2,7 +2,6 @@
 
 #include "detection.h"
 
-
 detection *get_detection(detection *dets, int index, int dets_len) {
     if (index >= dets_len) {
         return NULL;
