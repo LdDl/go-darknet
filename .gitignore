@@ -9,5 +9,5 @@ predictions.png
 predictions.jpg
 main
 bad.list
-data/
-.vscode/
+data
+.vscode
