@@ -1,6 +1,6 @@
 # go-darknet: Go bindings for Darknet
 
-## This is fork of go-darknet https://github.com/gyonluks/go-darknet applied to FORK of Darknet https://github.com/AlexeyAB/darknet
+### This is fork of go-darknet https://github.com/gyonluks/go-darknet applied to FORK of Darknet https://github.com/AlexeyAB/darknet
 
 [![GoDoc](https://godoc.org/github.com/LdDl/go-darknet?status.svg)](https://godoc.org/github.com/LdDl/go-darknet)
 
