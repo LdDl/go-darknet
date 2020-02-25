@@ -33,7 +33,7 @@ To achieve it, after Darknet compilation (via make) execute following command:
 ```shell
 sudo cp libdarknet.so /usr/lib/libdarknet.so && sudo cp include/darknet.h /usr/local/include/darknet.h
 ```
-Note: do not forget to set LIBSO=1 in Makefile before executing make:
+Note: do not forget to set LIBSO=1 in Makefile before executing 'make':
 ```Makefile
 LIBSO=1
 ```
@@ -58,7 +58,7 @@ Download dataset (sample of image, coco.names, yolov3.cfg, yolov3.weights).
 ```shell
 ./download_data.sh
 ```
-Note: you don't need *coco.data* file anymore, because script below does insert *coco.names* into 'names' filed in *yolov3.cfg* file (so AlexeyAB's fork can deal with it properly)
+Note: you don't need *coco.data* file anymore, because sh-script above does insert *coco.names* into 'names' filed in *yolov3.cfg* file (so AlexeyAB's fork can deal with it properly)
 So last rows in yolov3.cfg file will look like:
 ```bash
 ......
