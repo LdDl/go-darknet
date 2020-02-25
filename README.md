@@ -33,7 +33,10 @@ To achieve it, after Darknet compilation (via make) execute following command:
 ```shell
 sudo cp libdarknet.so /usr/lib/libdarknet.so && sudo cp include/darknet.h /usr/local/include/darknet.h
 ```
-
+Note: do not forget to set LIBSO=1 in Makefile before executing make:
+```Makefile
+LIBSO=1
+```
 ## Installation
 
 ```shell
