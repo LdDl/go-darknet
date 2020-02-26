@@ -1,10 +1,10 @@
 [![GoDoc](https://godoc.org/github.com/LdDl/go-darknet?status.svg)](https://godoc.org/github.com/LdDl/go-darknet)
 
 # go-darknet: Go bindings for Darknet
-## go-darknet is a Go package, which uses Cgo to enable Go applications to use YOLO in [Darknet].
+### go-darknet is a Go package, which uses Cgo to enable Go applications to use YOLO in [Darknet].
 
-### Since this repository https://github.com/gyonluks/go-darknet  is no longer maintained I decided to move on and make little different bindings for Darknet.
-### This bindings aren't for [official implementation](https://github.com/pjreddie/darknet) but for [AlexeyAB's fork](https://github.com/AlexeyAB/darknet).
+#### Since this repository https://github.com/gyonluks/go-darknet  is no longer maintained I decided to move on and make little different bindings for Darknet.
+#### This bindings aren't for [official implementation](https://github.com/pjreddie/darknet) but for [AlexeyAB's fork](https://github.com/AlexeyAB/darknet).
 
 
 ## Table of Contents
