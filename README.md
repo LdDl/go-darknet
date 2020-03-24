@@ -17,7 +17,7 @@
 
 ## Requirements
 
-For proper codebase please use fork of [darknet](https://github.com/AlexeyAB/darknet). Latest commit I've tested [here](https://github.com/AlexeyAB/darknet/commit/64fb042c63637038671ae9d53c06165599b28912)
+For proper codebase please use fork of [darknet](https://github.com/AlexeyAB/darknet). Latest commit I've tested [here](https://github.com/AlexeyAB/darknet/commit/a234a5022333c930de08f2470184ef4e0c68356e)
 
 In order to use go-darknet, `libdarknet.so` should be available in one of
 the following locations:
