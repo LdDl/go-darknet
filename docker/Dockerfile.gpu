@@ -1,32 +1,43 @@
 # Build phase
 FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04 as builder
 
-ENV darknet_commit=680d3bd
+ENV darknet_commit=a234a5022333c930de08f2470184ef4e0c68356e
 
 WORKDIR /root/build
 COPY Makefile.gpu .
 RUN apt-get -y update && \
 	apt-get -y install git build-essential && \
-	git clone https://github.com/pjreddie/darknet.git && \
+	git clone https://github.com/AlexeyAB/darknet.git && \
 	cd darknet && \
 	git checkout $darknet_commit && \
         cp -f /root/build/Makefile.gpu Makefile && \
 	make
 
 # Final Image
-FROM nvidia/cuda:9.0-cudnn7-runtime-ubuntu16.04
+FROM nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
 
 WORKDIR /root
 COPY --from=builder /root/build/darknet/darknet \
 	/root/build/darknet/libdarknet.so \
-	/root/build/darknet/libdarknet.a \
 	/root/build/darknet/include/darknet.h \
 	./staging/
 
 RUN mv staging/darknet /usr/local/bin && \
-	mv staging/darknet.h /usr/local/include && \
-	mv staging/libdarknet.so staging/libdarknet.a /usr/local/lib && \
+	mv staging/darknet.h /usr/include && \
+	mv staging/libdarknet.so /usr/lib && \
 	rm -rf staging
+
+WORKDIR /tmp
+RUN cd /tmp \
+    && apt-get -y update \
+    && apt-get install -y wget git gcc \ 
+    && wget https://dl.google.com/go/go1.14.linux-amd64.tar.gz \
+    && tar -xvf go1.14.linux-amd64.tar.gz \
+    && mv go /usr/local
+
+ENV GOROOT=/usr/local/go
+ENV GOPATH=/go
+ENV PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 RUN go get -u github.com/LdDl/go-darknet \
     && go get -u github.com/disintegration/imaging
