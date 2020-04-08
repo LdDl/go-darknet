@@ -1,0 +1,38 @@
+# Build phase
+FROM nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04 as builder
+
+ENV darknet_commit=680d3bd
+
+WORKDIR /root/build
+COPY darknet.patch .
+RUN apt-get -y update && \
+	apt-get -y install git build-essential && \
+	git clone https://github.com/pjreddie/darknet.git && \
+	cd darknet && \
+	git checkout $darknet_commit && \
+	git apply ../darknet.patch && \
+	make
+
+# Final Image
+FROM nvidia/cuda:9.0-cudnn7-runtime-ubuntu16.04
+
+WORKDIR /root
+COPY --from=builder /root/build/darknet/darknet \
+	/root/build/darknet/libdarknet.so \
+	/root/build/darknet/libdarknet.a \
+	/root/build/darknet/include/darknet.h \
+	./staging/
+
+RUN mv staging/darknet /usr/local/bin && \
+	mv staging/darknet.h /usr/local/include && \
+	mv staging/libdarknet.so staging/libdarknet.a /usr/local/lib && \
+	rm -rf staging
+
+RUN go get -u github.com/LdDl/go-darknet \
+    && go get -u github.com/disintegration/imaging
+
+WORKDIR /darknet
+
+COPY download_data.sh .
+
+CMD ["/bin/bash"]
