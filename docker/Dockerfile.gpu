@@ -1,16 +1,16 @@
 # Build phase
-FROM nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04 as builder
+FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04 as builder
 
 ENV darknet_commit=680d3bd
 
 WORKDIR /root/build
-COPY darknet.patch .
+COPY Makefile.gpu .
 RUN apt-get -y update && \
 	apt-get -y install git build-essential && \
 	git clone https://github.com/pjreddie/darknet.git && \
 	cd darknet && \
 	git checkout $darknet_commit && \
-	git apply ../darknet.patch && \
+        cp -f /root/build/Makefile.gpu Makefile && \
 	make
 
 # Final Image
