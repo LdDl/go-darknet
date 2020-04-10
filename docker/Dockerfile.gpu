@@ -35,9 +35,12 @@ RUN cd /tmp \
     && tar -xvf go1.14.linux-amd64.tar.gz \
     && mv go /usr/local
 
+RUN cp /usr/local/cuda-10.0/compat/* /usr/local/cuda-10.0/targets/x86_64-linux/lib/
+
 ENV GOROOT=/usr/local/go
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+ENV LIBRARY_PATH=$LIBRARY_PATH:/usr/local/cuda-10.0/compat/
 
 RUN go get -u github.com/LdDl/go-darknet \
     && go get -u github.com/disintegration/imaging
