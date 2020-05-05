@@ -29,10 +29,10 @@ func imgTofloat32(src image.Image) []float32 {
 	width, height := bounds.Max.X, bounds.Max.Y
 	srcRGBA := image.NewRGBA(src.Bounds())
 	draw.Copy(srcRGBA, image.Point{}, src, src.Bounds(), draw.Src, nil)
-	ans := []float32{}
-	red := []float32{}
-	green := []float32{}
-	blue := []float32{}
+
+	red := make([]float32, 0, width*height)
+	green := make([]float32, 0, width*height)
+	blue := make([]float32, 0, width*height)
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
 			idxSource := (y*width + x) * 4
@@ -43,9 +43,15 @@ func imgTofloat32(src image.Image) []float32 {
 			blue = append(blue, bpix)
 		}
 	}
-	ans = append(ans, red...)
-	ans = append(ans, green...)
-	ans = append(ans, blue...)
+	srcRGBA = nil
+
+	ans := make([]float32, len(red)+len(green)+len(blue))
+	copy(ans[:len(red)], red)
+	copy(ans[len(red):len(red)+len(green)], green)
+	copy(ans[len(red)+len(green):], blue)
+	red = nil
+	green = nil
+	blue = nil
 	return ans
 }
 
@@ -60,5 +66,16 @@ func Image2Float32(img image.Image) (*DarknetImage, error) {
 		image:  C.make_image(C.int(width), C.int(height), 3),
 	}
 	C.fill_image_f32(&imgDarknet.image, C.int(width), C.int(height), 3, (*C.float)(unsafe.Pointer(&ans[0])))
+	return imgDarknet, nil
+}
+
+// Float32ToDarknetImage Converts []float32 to darknet image
+func Float32ToDarknetImage(flatten []float32, width, height int) (*DarknetImage, error) {
+	imgDarknet := &DarknetImage{
+		Width:  width,
+		Height: height,
+		image:  C.make_image(C.int(width), C.int(height), 3),
+	}
+	C.fill_image_f32(&imgDarknet.image, C.int(width), C.int(height), 3, (*C.float)(unsafe.Pointer(&flatten[0])))
 	return imgDarknet, nil
 }
