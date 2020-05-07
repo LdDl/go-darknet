@@ -1,11 +1,13 @@
 [![GoDoc](https://godoc.org/github.com/LdDl/go-darknet?status.svg)](https://godoc.org/github.com/LdDl/go-darknet)
 
-# go-darknet: Go bindings for Darknet
-### go-darknet is a Go package, which uses Cgo to enable Go applications to use YOLO in [Darknet].
+# go-darknet: Go bindings for Darknet (Yolo V4, Yolo V3)
+### go-darknet is a Go package, which uses Cgo to enable Go applications to use YOLO V4/V3 in [Darknet].
 
 #### Since this repository https://github.com/gyonluks/go-darknet  is no longer maintained I decided to move on and make little different bindings for Darknet.
 #### This bindings aren't for [official implementation](https://github.com/pjreddie/darknet) but for [AlexeyAB's fork](https://github.com/AlexeyAB/darknet).
 
+#### Paper Yolo v4: https://arxiv.org/abs/2004.10934
+#### Paper Yolo v3: https://arxiv.org/abs/1804.02767
 
 ## Table of Contents
 
@@ -17,7 +19,7 @@
 
 ## Requirements
 
-For proper codebase please use fork of [darknet](https://github.com/AlexeyAB/darknet). Latest commit I've tested [here](https://github.com/AlexeyAB/darknet/commit/a234a5022333c930de08f2470184ef4e0c68356e)
+For proper codebase please use fork of [darknet](https://github.com/AlexeyAB/darknet). Latest commit I've tested [here](https://github.com/AlexeyAB/darknet/commit/08bc0c9373158da6c42f11b1359ca2c017cef1b5)
 
 In order to use go-darknet, `libdarknet.so` should be available in one of
 the following locations:
@@ -55,27 +57,62 @@ Navigate to [example] folder
 cd $GOPATH/github.com/LdDl/go-darknet/example
 ```
 
-Download dataset (sample of image, coco.names, yolov3.cfg, yolov3.weights).
+Download dataset (sample of image, coco.names, yolov4.cfg (or v3), yolov4.weights(or v3)).
 ```shell
+#for yolo v4
 ./download_data.sh
+#for yolo v3
+./download_data_v3.sh
 ```
-Note: you don't need *coco.data* file anymore, because sh-script above does insert *coco.names* into 'names' filed in *yolov3.cfg* file (so AlexeyAB's fork can deal with it properly)
-So last rows in yolov3.cfg file will look like:
+Note: you don't need *coco.data* file anymore, because sh-script above does insert *coco.names* into 'names' filed in *yolov4.cfg* file (so AlexeyAB's fork can deal with it properly)
+So last rows in yolov4.cfg file will look like:
 ```bash
 ......
 [yolo]
-mask = 0,1,2
-anchors = 10,13,  16,30,  33,23,  30,61,  62,45,  59,119,  116,90,  156,198,  373,326
-classes=80
-num=9
-jitter=.3
-ignore_thresh = .7
-truth_thresh = 1
-random=1
+.....
+iou_loss=ciou
+nms_kind=greedynms
+beta_nms=0.6
+
 names = coco.names # this is path to coco.names file
 ```
+Also do not forget change batch and subdivisions sizes from:
+```shell
+batch=64
+subdivisions=8
+```
+to
+```shell
+batch=1
+subdivisions=1
+```
+It will reduce amount of VRAM used for detector test.
+
 
 Build and run program
+Yolo V4:
+```shell
+go build main.go && ./main --configFile=yolov4.cfg --weightsFile=yolov4.weights --imageFile=sample.jpg
+```
+
+Output should be something like this:
+```shell
+traffic light (9): 73.5039% | start point: (238,73) | end point: (251, 106)
+truck (7): 96.6401% | start point: (95,79) | end point: (233, 287)
+truck (7): 96.4774% | start point: (662,158) | end point: (800, 321)
+truck (7): 96.1841% | start point: (0,77) | end point: (86, 333)
+truck (7): 46.8695% | start point: (434,173) | end point: (559, 216)
+car (2): 99.7370% | start point: (512,188) | end point: (741, 329)
+car (2): 99.2533% | start point: (260,191) | end point: (422, 322)
+car (2): 99.0333% | start point: (425,201) | end point: (547, 309)
+car (2): 83.3919% | start point: (386,210) | end point: (437, 287)
+car (2): 75.8621% | start point: (73,199) | end point: (102, 274)
+car (2): 39.1925% | start point: (386,206) | end point: (442, 240)
+bicycle (1): 76.3121% | start point: (189,298) | end point: (253, 402)
+person (0): 97.7213% | start point: (141,129) | end point: (283, 362)
+```
+
+Yolo V3:
 ```
 go build main.go && ./main --configFile=yolov3.cfg --weightsFile=yolov3.weights --imageFile=sample.jpg
 ```
@@ -96,6 +133,7 @@ car (2): 72.8053% | start point: (388,206) | end point: (437, 276)
 bicycle (1): 72.2932% | start point: (178,270) | end point: (268, 406)
 person (0): 97.3026% | start point: (143,135) | end point: (268, 343)
 ```
+
 ## Documentation
 
 See go-darknet's API documentation at [GoDoc].

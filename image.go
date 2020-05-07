@@ -14,12 +14,14 @@ import (
 type DarknetImage struct {
 	Width  int
 	Height int
+	ans    []float32
 	image  C.image
 }
 
 // Close and release resources.
 func (img *DarknetImage) Close() error {
 	C.free_image(img.image)
+	img.ans = nil
 	return nil
 }
 
@@ -57,15 +59,16 @@ func imgTofloat32(src image.Image) []float32 {
 
 // Image2Float32 Returns []float32 representation of image.Image
 func Image2Float32(img image.Image) (*DarknetImage, error) {
-	ans := imgTofloat32(img)
+	// ans := imgTofloat32(img)
 	width := img.Bounds().Dx()
 	height := img.Bounds().Dy()
 	imgDarknet := &DarknetImage{
 		Width:  width,
 		Height: height,
+		ans:    imgTofloat32(img),
 		image:  C.make_image(C.int(width), C.int(height), 3),
 	}
-	C.fill_image_f32(&imgDarknet.image, C.int(width), C.int(height), 3, (*C.float)(unsafe.Pointer(&ans[0])))
+	C.fill_image_f32(&imgDarknet.image, C.int(width), C.int(height), 3, (*C.float)(unsafe.Pointer(&imgDarknet.ans[0])))
 	return imgDarknet, nil
 }
 
