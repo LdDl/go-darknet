@@ -64,7 +64,7 @@ Download dataset (sample of image, coco.names, yolov4.cfg (or v3), yolov4.weight
 #for yolo v3
 ./download_data_v3.sh
 ```
-Note: you don't need *coco.data* file anymore, because sh-script above does insert *coco.names* into 'names' filed in *yolov4.cfg* file (so AlexeyAB's fork can deal with it properly)
+Note: you don't need *coco.data* file anymore, because sh-script above does insert *coco.names* into 'names' field in *yolov4.cfg* file (so AlexeyAB's fork can deal with it properly)
 So last rows in yolov4.cfg file will look like:
 ```bash
 ......
