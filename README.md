@@ -34,7 +34,9 @@ Also, [darknet.h] should be available in one of the following locations:
 
 To achieve it, after Darknet compilation (via make) execute following command:
 ```shell
-sudo cp libdarknet.so /usr/lib/libdarknet.so && sudo cp include/darknet.h /usr/local/include/darknet.h
+# Copy *.so to /usr/lib + /usr/include (or /usr/local/lib + /usr/local/include)
+sudo cp libdarknet.so /usr/lib/libdarknet.so && sudo cp include/darknet.h /usr/include/darknet.h
+# sudo cp libdarknet.so /usr/local/lib/libdarknet.so && sudo cp include/darknet.h /usr/local/include/darknet.h
 ```
 Note: do not forget to set LIBSO=1 in Makefile before executing 'make':
 ```Makefile
