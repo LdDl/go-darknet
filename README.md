@@ -1,4 +1,8 @@
 [![GoDoc](https://godoc.org/github.com/LdDl/go-darknet?status.svg)](https://godoc.org/github.com/LdDl/go-darknet)
+[![Sourcegraph](https://sourcegraph.com/github.com/LdDl/go-darknet/-/badge.svg)](https://sourcegraph.com/github.com/LdDl/go-darknet?badge)
+[![Go Report Card](https://goreportcard.com/badge/github.com/LdDl/go-darknet)](https://goreportcard.com/report/github.com/LdDl/go-darknet)
+[![GitHub tag](https://img.shields.io/github/tag/LdDl/go-darknet.svg)](https://github.com/LdDl/go-darknet/releases)
+
 
 # go-darknet: Go bindings for Darknet (Yolo V4, Yolo V3)
 ### go-darknet is a Go package, which uses Cgo to enable Go applications to use YOLO V4/V3 in [Darknet].
