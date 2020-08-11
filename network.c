@@ -14,7 +14,7 @@ struct network_box_result perform_network_detect(network *n, image *img, int cla
         sized = resize_image(*img, n->w, n->h);
     }
     struct network_box_result result = { NULL };
-    network_predict_ptr(n, sized.data);
+    network_predict(*n, sized.data);
     int nboxes = 0;
     result.detections = get_network_boxes(n, img->w, img->h, thresh, hier_thresh, 0, 1, &result.detections_len, letter_box);
     if (nms) {
