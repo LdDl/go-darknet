@@ -8,12 +8,12 @@ This is an example Go application which uses go-darknet.
 Navigate to example folder:
 
 ```shell
-cd $GOPATH/github.com/LdDl/go-darknet/example
+cd $GOPATH/github.com/LdDl/go-darknet/example/base_example
 ```
 
 Download dataset (sample of image, coco.names, yolov3.cfg, yolov3.weights).
 ```shell
-./download_data.sh
+./download_data_v3.sh
 ```
 Note: you don't need *coco.data* file anymore, because script below does insert *coco.names* into 'names' filed in *yolov3.cfg* file (so AlexeyAB's fork can deal with it properly)
 So last rows in yolov3.cfg file will look like:
