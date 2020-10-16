@@ -47,10 +47,9 @@ func main() {
 
 // DarknetResp Response
 type DarknetResp struct {
-	NetTime       string              `json:"net_time"`
-	OverallTime   string              `json:"overall_time"`
-	NumDetections int                 `json:"num_detections"`
-	Detections    []*DarknetDetection `json:"detections"`
+	NetTime     string              `json:"net_time"`
+	OverallTime string              `json:"overall_time"`
+	Detections  []*DarknetDetection `json:"detections"`
 }
 
 // DarknetDetection Information about single detection
@@ -106,10 +105,9 @@ func detectObjects(n *darknet.YOLONetwork) func(w http.ResponseWriter, req *http
 		}
 
 		resp := DarknetResp{
-			NetTime:       fmt.Sprintf("%v", dr.NetworkOnlyTimeTaken),
-			OverallTime:   fmt.Sprintf("%v", dr.OverallTimeTaken),
-			NumDetections: len(dr.Detections),
-			Detections:    []*DarknetDetection{},
+			NetTime:     fmt.Sprintf("%v", dr.NetworkOnlyTimeTaken),
+			OverallTime: fmt.Sprintf("%v", dr.OverallTimeTaken),
+			Detections:  []*DarknetDetection{},
 		}
 
 		for _, d := range dr.Detections {
