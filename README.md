@@ -50,7 +50,7 @@ Building and running program:
 
 * Navigate to [example] folder
     ```shell
-    cd $GOPATH/github.com/LdDl/go-darknet/example
+    cd $GOPATH/github.com/LdDl/go-darknet/example/base_example
     ```
 
 * Download dataset (sample of image, coco.names, yolov4.cfg (or v3), yolov4.weights(or v3)).
@@ -145,5 +145,5 @@ go-darknet follows [Darknet]'s [license].
 [darknet.h]: https://github.com/AlexeyAB/darknet/blob/master/include/darknet.h
 [include/darknet.h]: https://github.com/AlexeyAB/darknet/blob/master/include/darknet.h
 [Makefile]: https://github.com/alexeyab/darknet/blob/master/Makefile
-[example]: /example
+[example]: /example/base_example
 [GoDoc]: https://godoc.org/github.com/LdDl/go-darknet
