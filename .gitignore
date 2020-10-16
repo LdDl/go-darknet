@@ -1,5 +1,4 @@
 example/main
-example/sample.jpg
 example/coco.names
 example/yolov3.cfg
 example/yolov3.weights
