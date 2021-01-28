@@ -2,7 +2,7 @@
 .PHONY: download build clean
 
 # Latest battletested AlexeyAB version of Darknet commit
-LATEST_COMMIT?=d65909fbea471d06e52a2e4a41132380dc2edaa6
+LATEST_COMMIT?=f056fc3b6a11528fa0522a468eca1e909b7004b7
 
 # Temporary folder for building Darknet
 TMP_DIR?=/tmp/
