@@ -9,7 +9,7 @@ import (
 	"log"
 	"math"
 	"os"
-
+"time"
 	darknet "github.com/LdDl/go-darknet"
 	"github.com/disintegration/imaging"
 )
@@ -61,13 +61,13 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	defer imgDarknet.Close()
-
+	
 	dr, err := n.Detect(imgDarknet)
 	if err != nil {
 		printError(err)
 		return
 	}
+	imgDarknet.Close()
 
 	log.Println("Network-only time taken:", dr.NetworkOnlyTimeTaken)
 	log.Println("Overall time taken:", dr.OverallTimeTaken, len(dr.Detections))
@@ -92,6 +92,7 @@ func main() {
 			// }
 		}
 	}
+	time.Sleep(100*time.Millisecond)
 }
 
 func imageToBytes(img image.Image) ([]byte, error) {

@@ -25,6 +25,12 @@ type DetectionResult struct {
 	OverallTimeTaken     time.Duration
 }
 
+// func (dr *DetectionResult) Close() error {
+// 	C.free_detections(dr.Detections, len(dr.Detections))
+// 	dr.Detections = nil
+// 	return nil
+// }
+
 func makeDetection(img *DarknetImage, det *C.detection, threshold float32, classes int, classNames []string) *Detection {
 	if det == nil {
 		return &Detection{}
