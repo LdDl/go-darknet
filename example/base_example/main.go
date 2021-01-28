@@ -9,7 +9,6 @@ import (
 	"log"
 	"math"
 	"os"
-"time"
 	darknet "github.com/LdDl/go-darknet"
 	"github.com/disintegration/imaging"
 )
@@ -92,7 +91,6 @@ func main() {
 			// }
 		}
 	}
-	time.Sleep(100*time.Millisecond)
 }
 
 func imageToBytes(img image.Image) ([]byte, error) {
