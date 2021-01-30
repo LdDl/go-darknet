@@ -58,7 +58,7 @@ func (n *YOLONetwork) Close() error {
 	if n.cNet == nil {
 		return errNetworkNotInit
 	}
-	C.free_network(*n.cNet)
+	C.free_network_ptr(n.cNet)
 	n.cNet = nil
 	return nil
 }

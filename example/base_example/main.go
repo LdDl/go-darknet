@@ -91,6 +91,8 @@ func main() {
 			// }
 		}
 	}
+
+	n.Close()
 }
 
 func imageToBytes(img image.Image) ([]byte, error) {
