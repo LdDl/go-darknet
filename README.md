@@ -27,7 +27,9 @@
 Because this repository https://github.com/gyonluks/go-darknet is no longer maintained.
 
 **What purpose of this binding when you can have [GoCV](https://github.com/hybridgroup/gocv#gocv) (bindings to OpenCV) and it handle Darnet YOLO perfectly?**
+
 Well, you don't need bunch of OpenCV dependencies and OpenCV itself sometimes.
+
 Example of such project here: https://github.com/LdDl/license_plate_recognition#license-plate-recognition-with-go-darknet---- .
 
 
