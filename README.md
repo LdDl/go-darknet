@@ -22,11 +22,11 @@
 - [License](#license)
 
 ## Why
-**Why does this repository exists?**
+**Why does this repository exist?**
 
 Because this repository https://github.com/gyonluks/go-darknet is no longer maintained.
 
-**What purpose of this binding when you can have [GoCV](https://github.com/hybridgroup/gocv#gocv) (bindings to OpenCV) and it handle Darnet YOLO perfectly?**
+**What is purpose of this bindings when you can have [GoCV](https://github.com/hybridgroup/gocv#gocv) (bindings to OpenCV) and it handle Darnet YOLO perfectly?**
 
 Well, you don't need bunch of OpenCV dependencies and OpenCV itself sometimes.
 
