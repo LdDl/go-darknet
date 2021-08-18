@@ -1,5 +1,5 @@
 .ONESHELL:
-.PHONY: prepare_cuda prepare_cudnn download_darknet build_darknet build_darknet_gpu clean
+.PHONY: prepare_cuda prepare_cudnn download_darknet build_darknet build_darknet_gpu clean clean_cuda clean_cudnn
 
 # Latest battletested AlexeyAB version of Darknet commit
 LATEST_COMMIT?=f056fc3b6a11528fa0522a468eca1e909b7004b7
@@ -87,6 +87,12 @@ sudo_install:
 clean:
 	rm -rf $(TMP_DIR)install_darknet
 
+clean_cuda:
+	rm -rf $(TMP_DIR)install_cuda
+
+clean_cudnn:
+	rm -rf $(TMP_DIR)install_cudnn
+
 # Do every step for CPU-based only build.
 install_darknet: download_darknet build_darknet sudo_install clean
 
@@ -94,4 +100,4 @@ install_darknet: download_darknet build_darknet sudo_install clean
 install_darknet_gpu: download_darknet build_darknet_gpu sudo_install clean
 
 # Do every step for both CPU and GPU-based build if you haven't installed CUDA.
-install_darknet_gpu_cuda: prepare_cuda prepare_cudnn download_darknet build_darknet_gpu sudo_install clean
+install_darknet_gpu_cuda: prepare_cuda prepare_cudnn download_darknet build_darknet_gpu sudo_install clean clean_cuda clean_cudnn
