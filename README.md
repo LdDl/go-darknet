@@ -41,13 +41,20 @@ Use provided [Makefile](Makefile).
 
 * For CPU-based instalattion:
     ```shell
-    make install
+    make install_darknet
     ```
-* For both CPU and GPU-based instalattion:
+* For both CPU and GPU-based instalattion if you HAVE CUDA installed:
     ```shell
-    make install_gpu
+    make install_darknet_gpu
     ```
-    Note: If you want to have GPU-acceleration before running command above install [CUDA](https://developer.nvidia.com/cuda-downloads) and [cuDNN](https://developer.nvidia.com/cudnn) (Latest CUDA version I've tested is [10.2](https://developer.nvidia.com/cuda-10.2-download-archive) and cuDNN is [7.6.5](https://developer.nvidia.com/rdp/cudnn-archive#a-collapse765-102))
+    Note: I've tested CUDA [10.2](https://developer.nvidia.com/cuda-10.2-download-archive) and cuDNN is [7.6.5](https://developer.nvidia.com/rdp/cudnn-archive#a-collapse765-102))
+
+* For both CPU and GPU-based instalattion if you HAVE NOT CUDA installed:
+    ```shell
+    make install_darknet_gpu_cuda
+    ```
+    Note: There is some struggle in Makefile for cuDNN, but I hope it works in Ubuntu atleast. Do not forget provide proper CUDA and cuDNN versions.
+
 
 ## Installation
 
