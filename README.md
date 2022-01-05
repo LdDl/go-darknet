@@ -35,7 +35,7 @@ Example of such project here: https://github.com/LdDl/license_plate_recognition#
 
 ## Requirements
 
-You need to install fork of [darknet](https://github.com/AlexeyAB/darknet). Latest commit I've tested is [here](https://github.com/AlexeyAB/darknet/commit/d65909fbea471d06e52a2e4a41132380dc2edaa6)
+You need to install fork of [darknet](https://github.com/AlexeyAB/darknet). Latest commit I've tested is [here](https://github.com/AlexeyAB/darknet/commit/f056fc3b6a11528fa0522a468eca1e909b7004b7)
 
 Use provided [Makefile](Makefile).
 
