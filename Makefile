@@ -2,7 +2,8 @@
 .PHONY: prepare_cuda prepare_cudnn download_darknet build_darknet build_darknet_gpu clean clean_cuda clean_cudnn sudo_install
 
 # Latest battletested AlexeyAB version of Darknet commit
-LATEST_COMMIT?=f056fc3b6a11528fa0522a468eca1e909b7004b7
+# LATEST_COMMIT?=f056fc3b6a11528fa0522a468eca1e909b7004b7
+LATEST_COMMIT?=9d40b619756be9521bc2ccd81808f502daaa3e9a
 
 # Temporary folder for building Darknet
 TMP_DIR?=/tmp/
