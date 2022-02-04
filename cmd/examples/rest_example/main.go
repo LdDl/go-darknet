@@ -11,7 +11,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/LdDl/go-darknet"
+	"go-darknet"
 )
 
 var configFile = flag.String("configFile", "",
