@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	darknet "go-darknet"
 	"image"
 	"image/jpeg"
 	"log"
 	"math"
 	"os"
-	darknet "github.com/LdDl/go-darknet"
+
 	"github.com/disintegration/imaging"
 )
 
@@ -60,7 +61,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	
+
 	dr, err := n.Detect(imgDarknet)
 	if err != nil {
 		printError(err)

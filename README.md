@@ -64,13 +64,13 @@ go get github.com/LdDl/go-darknet
 
 ## Usage
 
-Example Go program is provided in the [example] directory. Please refer to the code on how to use this Go package.
+Example Go program is provided in the [examples] directory. Please refer to the code on how to use this Go package.
 
 Building and running program:
 
-* Navigate to [example] folder
+* Navigate to [examples] folder
     ```shell
-    cd $GOPATH/github.com/LdDl/go-darknet/example/base_example
+    cd ${YOUR PATH}/github.com/LdDl/go-darknet/cmd/examples
     ```
 
 * Download dataset (sample of image, coco.names, yolov4.cfg (or v3), yolov4.weights(or v3)).
@@ -106,10 +106,10 @@ Building and running program:
     It will reduce amount of VRAM used for detector test.
 
 
-* Build and run program
+* Build and run example program
     Yolo V4:
     ```shell
-    go build main.go && ./main --configFile=yolov4.cfg --weightsFile=yolov4.weights --imageFile=sample.jpg
+    go build -o base_example/main base_example/main.go && ./base_example/main --configFile=yolov4.cfg --weightsFile=yolov4.weights --imageFile=sample.jpg
     ```
 
     Output should be something like this:
@@ -165,5 +165,5 @@ go-darknet follows [Darknet]'s [license].
 [darknet.h]: https://github.com/AlexeyAB/darknet/blob/master/include/darknet.h
 [include/darknet.h]: https://github.com/AlexeyAB/darknet/blob/master/include/darknet.h
 [Makefile]: https://github.com/alexeyab/darknet/blob/master/Makefile
-[example]: /example/base_example
+[examples]: cmd/examples/base_example
 [GoDoc]: https://godoc.org/github.com/LdDl/go-darknet
