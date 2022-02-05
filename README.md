@@ -114,15 +114,15 @@ Building and running program:
 
     Output should be something like this:
     ```shell
-    traffic light (9): 73.5039% | start point: (238,73) | end point: (251, 106)
+    traffic light (9): 73.5040% | start point: (238,73) | end point: (251, 106)
     truck (7): 96.6401% | start point: (95,79) | end point: (233, 287)
     truck (7): 96.4774% | start point: (662,158) | end point: (800, 321)
     truck (7): 96.1841% | start point: (0,77) | end point: (86, 333)
-    truck (7): 46.8695% | start point: (434,173) | end point: (559, 216)
+    truck (7): 46.8694% | start point: (434,173) | end point: (559, 216)
     car (2): 99.7370% | start point: (512,188) | end point: (741, 329)
-    car (2): 99.2533% | start point: (260,191) | end point: (422, 322)
+    car (2): 99.2532% | start point: (260,191) | end point: (422, 322)
     car (2): 99.0333% | start point: (425,201) | end point: (547, 309)
-    car (2): 83.3919% | start point: (386,210) | end point: (437, 287)
+    car (2): 83.3920% | start point: (386,210) | end point: (437, 287)
     car (2): 75.8621% | start point: (73,199) | end point: (102, 274)
     car (2): 39.1925% | start point: (386,206) | end point: (442, 240)
     bicycle (1): 76.3121% | start point: (189,298) | end point: (253, 402)
@@ -136,19 +136,19 @@ Building and running program:
 
     Output should be something like this:
     ```shell
-    truck (7): 49.5197% | start point: (0,136) | end point: (85, 311)
-    car (2): 36.3747% | start point: (95,152) | end point: (186, 283)
-    truck (7): 48.4384% | start point: (95,152) | end point: (186, 283)
-    truck (7): 45.6590% | start point: (694,178) | end point: (798, 310)
-    car (2): 76.8379% | start point: (1,145) | end point: (84, 324)
-    truck (7): 25.5731% | start point: (107,89) | end point: (215, 263)
-    car (2): 99.8783% | start point: (511,185) | end point: (748, 328)
-    car (2): 99.8194% | start point: (261,189) | end point: (427, 322)
-    car (2): 99.6408% | start point: (426,197) | end point: (539, 311)
-    car (2): 74.5610% | start point: (692,186) | end point: (796, 316)
-    car (2): 72.8053% | start point: (388,206) | end point: (437, 276)
-    bicycle (1): 72.2932% | start point: (178,270) | end point: (268, 406)
-    person (0): 97.3026% | start point: (143,135) | end point: (268, 343)
+    truck (7): 49.5123% | start point: (0,136) | end point: (85, 311)
+    car (2): 36.3694% | start point: (95,152) | end point: (186, 283)
+    truck (7): 48.4177% | start point: (95,152) | end point: (186, 283)
+    truck (7): 45.6520% | start point: (694,178) | end point: (798, 310)
+    car (2): 76.8402% | start point: (1,145) | end point: (84, 324)
+    truck (7): 25.5920% | start point: (107,89) | end point: (215, 263)
+    car (2): 99.8782% | start point: (511,185) | end point: (748, 328)
+    car (2): 99.8193% | start point: (261,189) | end point: (427, 322)
+    car (2): 99.6405% | start point: (426,197) | end point: (539, 311)
+    car (2): 74.5627% | start point: (692,186) | end point: (796, 316)
+    car (2): 72.7975% | start point: (388,206) | end point: (437, 276)
+    bicycle (1): 72.2760% | start point: (178,270) | end point: (268, 406)
+    person (0): 97.3007% | start point: (143,135) | end point: (268, 343)
     ```
 
 ## Documentation
