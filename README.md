@@ -35,7 +35,7 @@ Example of such project here: https://github.com/LdDl/license_plate_recognition#
 
 ## Requirements
 
-You need to install fork of [darknet](https://github.com/AlexeyAB/darknet). Latest commit I've tested is [here](https://github.com/AlexeyAB/darknet/commit/f056fc3b6a11528fa0522a468eca1e909b7004b7)
+You need to install fork of [darknet](https://github.com/AlexeyAB/darknet). Latest commit I've tested is [here](https://github.com/AlexeyAB/darknet/commit/9d40b619756be9521bc2ccd81808f502daaa3e9a). It corresponds last official [YOLOv4 release](https://github.com/AlexeyAB/darknet/releases/tag/yolov4)
 
 Use provided [Makefile](Makefile).
 
