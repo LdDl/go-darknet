@@ -1,4 +1,4 @@
-module go-darknet
+module github.com/LdDl/go-darknet
 
 go 1.17
 

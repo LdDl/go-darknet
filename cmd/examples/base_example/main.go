@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	darknet "go-darknet"
 	"image"
 	"image/jpeg"
 	"log"
 	"math"
 	"os"
+
+	darknet "github.com/LdDl/go-darknet"
 
 	"github.com/disintegration/imaging"
 )
