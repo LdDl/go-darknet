@@ -77,6 +77,8 @@ Building and running program:
     ```shell
     #for yolo v4
     ./download_data.sh
+    #for yolo v7 tiny
+    ./download_data_v7_tiny.sh
     #for yolo v3
     ./download_data_v3.sh
     ```
@@ -107,7 +109,30 @@ Building and running program:
 
 
 * Build and run example program
-    Yolo V4:
+    
+    Yolo v7 tiny:
+    ```shell
+    go build -o base_example/main base_example/main.go && ./base_example/main --configFile=yolov7-tiny.cfg --weightsFile=yolov7-tiny.weights --imageFile=sample.jpg
+    ```
+
+    Output should be something like this:
+    ```shell
+    truck (7): 53.2890% | start point: (0,143) | end point: (89, 328)
+    truck (7): 42.1364% | start point: (685,182) | end point: (800, 318)
+    truck (7): 26.9703% | start point: (437,170) | end point: (560, 217)
+    car (2): 87.7818% | start point: (509,189) | end point: (742, 329)
+    car (2): 87.5633% | start point: (262,191) | end point: (423, 322)
+    car (2): 85.4743% | start point: (427,198) | end point: (549, 309)
+    car (2): 71.3772% | start point: (0,147) | end point: (87, 327)
+    car (2): 62.5698% | start point: (98,151) | end point: (197, 286)
+    car (2): 61.5811% | start point: (693,186) | end point: (799, 316)
+    car (2): 49.6343% | start point: (386,206) | end point: (441, 286)
+    car (2): 28.2012% | start point: (386,205) | end point: (440, 236)
+    bicycle (1): 71.9609% | start point: (179,294) | end point: (249, 405)
+    person (0): 85.4390% | start point: (146,130) | end point: (269, 351)
+
+    ```
+    Yolo v4:
     ```shell
     go build -o base_example/main base_example/main.go && ./base_example/main --configFile=yolov4.cfg --weightsFile=yolov4.weights --imageFile=sample.jpg
     ```

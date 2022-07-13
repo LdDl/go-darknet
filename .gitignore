@@ -5,6 +5,8 @@ cmd/examples/yolov3.cfg
 cmd/examples/yolov3.weights
 cmd/examples/yolov4.cfg
 cmd/examples/yolov4.weights
+cmd/examples/yolov7-tiny.cfg
+cmd/examples/yolov7-tiny.weights
 darknet.h
 *.so
 predictions.png
