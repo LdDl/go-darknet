@@ -3,12 +3,13 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/LdDl/go-darknet)](https://goreportcard.com/report/github.com/LdDl/go-darknet)
 [![GitHub tag](https://img.shields.io/github/tag/LdDl/go-darknet.svg)](https://github.com/LdDl/go-darknet/releases)
 
-# go-darknet: Go bindings for Darknet (Yolo V4, Yolo V3)
-### go-darknet is a Go package, which uses Cgo to enable Go applications to use YOLO V4/V3 in [Darknet].
+# go-darknet: Go bindings for Darknet (Yolo V4, Yolo V7-tiny, Yolo V3)
+### go-darknet is a Go package, which uses Cgo to enable Go applications to use V4/V7-tiny/V3 in [Darknet].
 
 #### Since this repository https://github.com/gyonluks/go-darknet  is no longer maintained I decided to move on and make little different bindings for Darknet.
 #### This bindings aren't for [official implementation](https://github.com/pjreddie/darknet) but for [AlexeyAB's fork](https://github.com/AlexeyAB/darknet).
 
+#### Paper Yolo v7: https://arxiv.org/abs/2207.02696 (WARNING: Only 'tiny' variation works currently)
 #### Paper Yolo v4: https://arxiv.org/abs/2004.10934
 #### Paper Yolo v3: https://arxiv.org/abs/1804.02767
 
@@ -77,6 +78,8 @@ Building and running program:
     ```shell
     #for yolo v4
     ./download_data.sh
+    #for yolo v4 tiny
+    ./download_data_v4_tiny.sh
     #for yolo v7 tiny
     ./download_data_v7_tiny.sh
     #for yolo v3
@@ -130,8 +133,8 @@ Building and running program:
     car (2): 28.2012% | start point: (386,205) | end point: (440, 236)
     bicycle (1): 71.9609% | start point: (179,294) | end point: (249, 405)
     person (0): 85.4390% | start point: (146,130) | end point: (269, 351)
-
     ```
+
     Yolo v4:
     ```shell
     go build -o base_example/main base_example/main.go && ./base_example/main --configFile=yolov4.cfg --weightsFile=yolov4.weights --imageFile=sample.jpg
@@ -152,6 +155,25 @@ Building and running program:
     car (2): 39.1925% | start point: (386,206) | end point: (442, 240)
     bicycle (1): 76.3121% | start point: (189,298) | end point: (253, 402)
     person (0): 97.7213% | start point: (141,129) | end point: (283, 362)
+    ```
+
+    Yolo v4 tiny:
+    ```shell
+    go build -o base_example/main base_example/main.go && ./base_example/main --configFile=yolov4-tiny.cfg --weightsFile=yolov4-tiny.weights --imageFile=sample.jpg
+    ```
+
+    Output should be something like this:
+    ```shell
+    truck (7): 77.7936% | start point: (0,138) | end point: (90, 332)
+    truck (7): 55.9773% | start point: (696,174) | end point: (799, 314)
+    car (2): 53.1286% | start point: (696,184) | end point: (799, 319)
+    car (2): 98.0222% | start point: (262,189) | end point: (424, 330)
+    car (2): 97.8773% | start point: (430,190) | end point: (542, 313)
+    car (2): 81.4099% | start point: (510,190) | end point: (743, 325)
+    car (2): 43.3935% | start point: (391,207) | end point: (435, 299)
+    car (2): 37.4221% | start point: (386,206) | end point: (429, 239)
+    car (2): 32.0724% | start point: (109,196) | end point: (157, 289)
+    person (0): 73.0868% | start point: (154,132) | end point: (284, 382)
     ```
 
     Yolo V3:
