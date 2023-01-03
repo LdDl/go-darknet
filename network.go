@@ -7,9 +7,14 @@ package darknet
 // #include "network.h"
 import "C"
 import (
-	"errors"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"syscall"
 	"time"
 	"unsafe"
+
+	"github.com/pkg/errors"
 )
 
 // YOLONetwork represents a neural network using YOLO.
@@ -50,6 +55,72 @@ func (n *YOLONetwork) Init() error {
 	metadata := C.get_metadata(nCfg)
 	n.Classes = int(metadata.classes)
 	n.ClassNames = makeClassNames(metadata.names, n.Classes)
+	return nil
+}
+
+/* EXPERIMENTAL */
+/*
+	By default AlexeyAB's Darknet doesn't export any functions in darknet.h to give ability to create network from scratch via code.
+	So I can't modify `parse_network_cfg_custom` to load `list *sections = read_cfg(filename);` from memory.
+
+	So, the point of this method is to be able create network configuration via Golang and then pass it to `C.load_network`
+*/
+func (n *YOLONetwork) InitFromDefinedCfg() error {
+	wFile := C.CString(n.WeightsFile)
+	defer C.free(unsafe.Pointer(wFile))
+	/* Prepare network sections via Go */
+	/*
+		instead of using:
+			wFile := C.CString(n.WeightsFile)
+			defer C.free(unsafe.Pointer(wFile))
+		We call `load_network` that takes the first char* parameter (representing a file path to network configuration) with a Go function that takes an in-memory file
+	*/
+	cfgBytes, err := os.ReadFile(n.NetworkConfigurationFile)
+	if err != nil {
+		return errors.Wrap(err, "Can't read file bytes")
+	}
+	// Create a temporary file.
+	tmpFile, err := ioutil.TempFile("", "")
+	if err != nil {
+		return errors.Wrap(err, "Can't create temporary file")
+	}
+	defer os.Remove(tmpFile.Name())
+	fmt.Println("here", tmpFile.Name())
+	// Write the file content to the temporary file.
+	if _, err := tmpFile.Write(cfgBytes); err != nil {
+		return errors.Wrap(err, "Can't write network's configuration into temporary file")
+	}
+	defer tmpFile.Close()
+	// Open the temporary file.
+	fd, err := syscall.Open(tmpFile.Name(), syscall.O_RDWR, 0)
+	if err != nil {
+		return errors.Wrap(err, "Can't re-open temporary file")
+	}
+	defer syscall.Close(fd)
+	// Create a memory mapping of the file.
+	addr, err := syscall.Mmap(fd, 0, len(cfgBytes), syscall.PROT_READ|syscall.PROT_WRITE, syscall.MAP_SHARED)
+	if err != nil {
+		return errors.Wrap(err, "Can't mmap on temporary file")
+	}
+
+	// GPU device ID must be set before `load_network()` is invoked.
+	C.cuda_set_device(C.int(n.GPUDeviceIndex))
+	nCfg := C.CString(tmpFile.Name())
+	defer C.free(unsafe.Pointer(nCfg))
+	n.cNet = C.load_network(nCfg, wFile, 0)
+	if n.cNet == nil {
+		return errUnableToInitNetwork
+	}
+	C.srand(2222222)
+	n.hierarchalThreshold = 0.5
+	n.nms = 0.45
+	metadata := C.get_metadata(nCfg)
+	n.Classes = int(metadata.classes)
+	n.ClassNames = makeClassNames(metadata.names, n.Classes)
+	// Unmap the memory-mapped file.
+	if err := syscall.Munmap(addr); err != nil {
+		return errors.Wrap(err, "Can't revert mmap")
+	}
 	return nil
 }
 
