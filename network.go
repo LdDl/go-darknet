@@ -7,7 +7,6 @@ package darknet
 // #include "network.h"
 import "C"
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"syscall"
@@ -64,6 +63,8 @@ func (n *YOLONetwork) Init() error {
 	So I can't modify `parse_network_cfg_custom` to load `list *sections = read_cfg(filename);` from memory.
 
 	So, the point of this method is to be able create network configuration via Golang and then pass it to `C.load_network`
+
+	This code is platform specific. We need to use some portable technique I guess.
 */
 func (n *YOLONetwork) InitFromDefinedCfg() error {
 	wFile := C.CString(n.WeightsFile)
@@ -85,7 +86,6 @@ func (n *YOLONetwork) InitFromDefinedCfg() error {
 		return errors.Wrap(err, "Can't create temporary file")
 	}
 	defer os.Remove(tmpFile.Name())
-	fmt.Println("here", tmpFile.Name())
 	// Write the file content to the temporary file.
 	if _, err := tmpFile.Write(cfgBytes); err != nil {
 		return errors.Wrap(err, "Can't write network's configuration into temporary file")
