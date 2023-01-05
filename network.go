@@ -9,10 +9,10 @@ import "C"
 import (
 	"io/ioutil"
 	"os"
-	"syscall"
 	"time"
 	"unsafe"
 
+	"github.com/edsrzf/mmap-go"
 	"github.com/pkg/errors"
 )
 
@@ -64,7 +64,7 @@ func (n *YOLONetwork) Init() error {
 
 	So, the point of this method is to be able create network configuration via Golang and then pass it to `C.load_network`
 
-	This code is platform specific. We need to use some portable technique I guess.
+	This code is portable for Windows/Linux/MacOS. See the ref.: https://github.com/edsrzf/mmap-go#mmap-go
 */
 func (n *YOLONetwork) InitFromDefinedCfg() error {
 	wFile := C.CString(n.WeightsFile)
@@ -80,6 +80,7 @@ func (n *YOLONetwork) InitFromDefinedCfg() error {
 	if err != nil {
 		return errors.Wrap(err, "Can't read file bytes")
 	}
+
 	// Create a temporary file.
 	tmpFile, err := ioutil.TempFile("", "")
 	if err != nil {
@@ -91,17 +92,27 @@ func (n *YOLONetwork) InitFromDefinedCfg() error {
 		return errors.Wrap(err, "Can't write network's configuration into temporary file")
 	}
 	defer tmpFile.Close()
+
 	// Open the temporary file.
-	fd, err := syscall.Open(tmpFile.Name(), syscall.O_RDWR, 0)
-	if err != nil {
-		return errors.Wrap(err, "Can't re-open temporary file")
-	}
-	defer syscall.Close(fd)
+	// fd, err := syscall.Open(tmpFile.Name(), syscall.O_RDWR, 0)
+	// if err != nil {
+	// 	return errors.Wrap(err, "Can't re-open temporary file")
+	// }
+	// defer syscall.Close(fd)
 	// Create a memory mapping of the file.
-	addr, err := syscall.Mmap(fd, 0, len(cfgBytes), syscall.PROT_READ|syscall.PROT_WRITE, syscall.MAP_SHARED)
+	// addr, err := syscall.Mmap(fd, 0, len(cfgBytes), syscall.PROT_READ|syscall.PROT_WRITE, syscall.MAP_SHARED)
+	// if err != nil {
+	// 	return errors.Wrap(err, "Can't mmap on temporary file")
+	// }
+	// Unmap the memory-mapped file.
+	// defer syscall.Munmap(addr)
+
+	// Map the temporary file to memory.
+	mapping, err := mmap.Map(tmpFile, mmap.RDWR, 0)
 	if err != nil {
 		return errors.Wrap(err, "Can't mmap on temporary file")
 	}
+	defer mapping.Unmap() // Unmap the memory-mapped file.
 
 	// GPU device ID must be set before `load_network()` is invoked.
 	C.cuda_set_device(C.int(n.GPUDeviceIndex))
@@ -117,10 +128,7 @@ func (n *YOLONetwork) InitFromDefinedCfg() error {
 	metadata := C.get_metadata(nCfg)
 	n.Classes = int(metadata.classes)
 	n.ClassNames = makeClassNames(metadata.names, n.Classes)
-	// Unmap the memory-mapped file.
-	if err := syscall.Munmap(addr); err != nil {
-		return errors.Wrap(err, "Can't revert mmap")
-	}
+
 	return nil
 }
 
