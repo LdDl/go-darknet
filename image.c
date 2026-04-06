@@ -26,3 +26,23 @@ void to_float_and_fill_image(image* im, int w, int h, uint8_t* data) {
         }
     }
 }
+
+void nrgba_to_float_and_fill_image(image* im, int w, int h, const uint8_t* pix, int stride) {
+    const float scale = 1.0f / 255.0f;
+    int pixel_count = w * h;
+    float* r_plane = im->data;
+    float* g_plane = im->data + pixel_count;
+    float* b_plane = im->data + pixel_count * 2;
+    int idx = 0;
+
+    for (int y = 0; y < h; y++) {
+        const uint8_t* row = pix + y * stride;
+        for (int x = 0; x < w; x++) {
+            int src = x * 4;
+            r_plane[idx] = (float)row[src]     * scale;
+            g_plane[idx] = (float)row[src + 1] * scale;
+            b_plane[idx] = (float)row[src + 2] * scale;
+            idx++;
+        }
+    }
+}
